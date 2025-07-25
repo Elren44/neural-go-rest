@@ -1,0 +1,22 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  PORT: "3000"
+
+tasks:
+  run:
+    cmds:
+      - go run ./cmd/api
+    silent: true
+
+  curl:
+    cmds:
+      - curl -v -k https://localhost:{{.PORT}}/
+    silent: true
+
+  cert:
+    cmds:
+      - openssl req -x509 -nodes -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -config openssl.cnf
+    silent: true
