@@ -112,7 +112,15 @@ func main() {
 		WhiteList:                   []string{"sortBy", "sortOrder", "name", "age", "class"},
 	}
 
-	secureMux := mw.Hpp(hppOptions)(rl.Middleware(mw.Compression(mw.ResponseTimeMiddleware(mw.SecurityHeaders(mw.Cors(mux))))))
+	secureMux := mw.Chain(
+		mux,
+		mw.Cors,
+		rl.RateLimiterMiddleware,
+		mw.ResponseTimeMiddleware,
+		mw.SecurityHeaders,
+		mw.Compression,
+		mw.Hpp(hppOptions),
+	)
 
 	server := &http.Server{
 		Addr:      port,

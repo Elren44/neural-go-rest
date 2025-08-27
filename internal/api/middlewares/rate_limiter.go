@@ -34,7 +34,7 @@ func (rl *rateLimiter) resetVisitorCount() {
 	}
 }
 
-func (rl *rateLimiter) Middleware(next http.Handler) http.Handler {
+func (rl *rateLimiter) RateLimiterMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		rl.mu.Lock()
 		defer rl.mu.Unlock()
